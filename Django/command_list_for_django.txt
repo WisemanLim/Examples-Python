@@ -1,0 +1,7 @@
+django-admin startproject doItDjangoPrj .
+[python manage.py runserver]
+python manage.py migrate
+python manage.py createsuperuser
+[WisemanLim, Wiseman.Lim@gmail.com, password, confirm-password]
+python manage.py startapp blog
+python manage.py startapp single_pages
