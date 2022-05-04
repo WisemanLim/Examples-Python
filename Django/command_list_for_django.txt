@@ -1,3 +1,4 @@
+pip install django
 django-admin startproject doItDjangoPrj .
 [python manage.py runserver]
 python manage.py migrate
