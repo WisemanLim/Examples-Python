@@ -168,7 +168,7 @@ def compress_pdf(pdf='./pdf', pdf_filename=None, quality=0):
     print("Compress pdf completed...")
 
 def main():
-    filename = 'Do it! Vue.js 입문.mov'
+    filename = '생활코딩! React 리액트 프로그래밍.mov'
     output = 'out' # 'ToeicLC'
 
     # compress_pdf only
