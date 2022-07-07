@@ -2,11 +2,13 @@
 # !/usr/bin/python
 # Ref : https://www.analyticsvidhya.com/blog/2022/02/youtube-video-downloader-using-python/
 # SSL: CERTIFICATE_VERIFY_FAILED :: https://exerror.com/urllib-error-urlerror-urlopen-error-ssl-certificate_verify_failed-certificate-verify-failed-unable-to-get-local-issuer-certificate/
+# get_throttling_function_name : python -m pip install git+https://github.com/kinshuk-h/pytube
+# https://codereview.stackexchange.com/questions/269794/youtube-downloader-with-pytube
 
 from pytube import YouTube
 from pytube import Playlist
 from pytube import Channel
-import os
+import os, shutil
 import mp4Tomp3 as convertor
 
 def checkDirectory(target):
@@ -20,14 +22,39 @@ def checkDirectory(target):
 def convertMp4ToMp3(target):
     convertor.convertMp4ToMp3(source=target, target="mp3")
 
+def downloadedFile(old_file=None, count=1, target=None):
+    # out_file => '/Volumes/MyWorks_SanDisk/Documents/PycharmProjects/Examples-Python/YTVDownloader/A quick introduction to working on the Linux command line.mp4'
+    i = 1
+    new_file = ""
+    for file in old_file.split("/"):
+        if ( i == 1 ):
+            new_file = "/"
+        elif ( i == len(old_file.split("/")) ):
+            file = str(count).zfill(2) + " " + file
+            new_file = new_file + "/" + target + "/" + file
+        else:
+            new_file = new_file + "/" + file
+
+        i += 1
+
+    os.rename(old_file, new_file)
+    # shutil.move(new_file, './{target}/{file}'.format(target=target, file=new_file))
+    return new_file
+
 def playlist(url, target, conv=False):
     playlist = Playlist(url)
     checkDirectory(target)
     print('Number of videos in playlist: %s' % len(playlist.video_urls))
+    current_file = 1
     for video in playlist.videos:
-        video.streams.filter(progressive=True,
+        # print(video.title)
+        out_file = video.streams.filter(progressive=True,
                              file_extension='mp4').order_by(
-            'resolution').desc().first().download()
+            'resolution').desc().first().download() # target)
+
+        new_file = downloadedFile(old_file=out_file, count=current_file, target=target)
+        print('{current_file} {filename}'.format(current_file=str(current_file).zfill(2), filename=video.streams.first().default_filename))
+        current_file += 1
     if (conv): convertMp4ToMp3(target=target)
     print("Done!!")
 
