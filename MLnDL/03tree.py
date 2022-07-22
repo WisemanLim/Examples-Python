@@ -14,7 +14,7 @@ def  main() :
     df.to_csv('03iris.csv', sep=',', index=False)
 
     # 꽃잎의 길이와 넓이 정보만 특징으로 사용 (2)
-    petal_features = features [:, 2:]
+    petal_features = features[:, 2:]
 
     # 의사결정 모델 클래스 생성 (3)
     cIris = DecisionTreeClassifier (criterion = 'entropy', max_depth = 3)
