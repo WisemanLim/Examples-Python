@@ -22,8 +22,17 @@ def  main() :
     cIris.fit(petal_features, targets)
 
     # DOT 언어의 형식으로 결정 나무의 형태를 출력한다.
-    with open('03iris-dtree.dot', mode = 'w') as f:
-        tree.export_graphviz (cIris, out_file = f)
+    filename = '03iris-dtree.dot'
+    with open(filename, mode = 'w') as f:
+        tree.export_graphviz(cIris, out_file = f)
+    f.close()
+
+    # DOT 형태를 이미지로 출력
+    import graphviz
+    with open(filename) as f:
+        dot_graph = f.read()
+    f.close()
+    graphviz.Source(dot_graph)
 
 if __name__ == '__main__':
     main()
