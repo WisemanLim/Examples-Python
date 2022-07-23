@@ -4,3 +4,7 @@
 /MLnDL/my_pet_classifier/
 /venv/
 /MLnDL/model.png
+
+*.dot
+*.png
+*.svg

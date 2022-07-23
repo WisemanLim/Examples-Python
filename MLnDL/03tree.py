@@ -21,18 +21,42 @@ def  main() :
     #모델을 훈련 (4)
     cIris.fit(petal_features, targets)
 
+    filename = '03iris-dtree'
+    """
     # DOT 언어의 형식으로 결정 나무의 형태를 출력한다.
-    filename = '03iris-dtree.dot'
-    with open(filename, mode = 'w') as f:
+    with open(filename + ".dot", mode = 'w') as f:
         tree.export_graphviz(cIris, out_file = f)
-    f.close()
-
-    # DOT 형태를 이미지로 출력
+    f.close() """
     import graphviz
-    with open(filename) as f:
+    """
+    # DOT 형태를 이미지로 출력
+    with open(filename + ".dot") as f:
         dot_graph = f.read()
     f.close()
-    graphviz.Source(dot_graph)
+    graph = graphviz.Source(dot_graph)
+    graph.format = "png"
+    graph.render(filename)
+    """
+    # Print text
+    dot_data = tree.export_text(cIris)
+    # print(dot_data)
+
+    dot_data = tree.export_graphviz(cIris, out_file=None
+                                    , feature_names=dataset.feature_names[2:], class_names=dataset.target_names
+                                    , filled=True) #, rounded=True, special_characters=True
+    graph = graphviz.Source(dot_data)
+    graph.format = "png"
+    graph.render(filename)
+
+    # dtreeviz
+    from dtreeviz.trees import dtreeviz  # remember to load the package
+    viz = dtreeviz(cIris, features[:, 2:], targets, target_name="target"
+                   , feature_names=dataset.feature_names[2:], class_names=list(dataset.target_names))
+    viz.save(filename + ".svg")
+
+    # delete temporary file : filename, i.e 03iris-dtress
+    import os
+    os.system("rm -Rf " + filename)
 
 if __name__ == '__main__':
     main()
