@@ -43,3 +43,4 @@ if __name__ == "__main__":
     # python 04kmeans-run.py wine-centroid.csv 04wine-test.data
     # (2)검증데이터가 wine.data와 동일할 때 : 클러스터 정답 컬럼 포함 14개 컬럼 (**)교재와 같이 수행시 무조건 컬럼 지정할 것
     # python 04kmeans-run.py wine-centroid.csv ./practice/chapter04/wine-test.data  "1,2,3,4,5,6,7,8,9,10,11,12,13"
+    # python 04kmeans-run.py wine-centroid.csv wine-test.data  "1,2,3,4,5,6,7,8,9,10,11,12,13"
