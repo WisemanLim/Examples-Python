@@ -43,7 +43,7 @@ def  main() :
 
     dot_data = tree.export_graphviz(cIris, out_file=None
                                     , feature_names=dataset.feature_names[2:], class_names=dataset.target_names
-                                    , filled=True) #, rounded=True, special_characters=True
+                                    , filled=True, rounded=True, special_characters=True)
     graph = graphviz.Source(dot_data)
     graph.format = "png"
     graph.render(filename)
