@@ -52,5 +52,5 @@ if __name__ == "__main__":
     filename = data_filename.split("/")[len(data_filename.split("/"))-1]
     pylab.savefig("04kmeans-cluster_" + filename + ".png")
     # show()
-    # python 04kmeans-cluster.py 3 ./practice/chapter04/iris.data "0,1,2,3" iris-centroid.csv result.txt
-    # python 04kmeans-cluster.py 3 ./practice/chapter04/wine.data "0,1,2,3" iris-centroid.csv result.txt
+    # python 04kmeans-cluster.py 3 ./practice/chapter04/iris.data "0,1,2,3" iris-centroid.csv 04iris_result.txt
+    # python 04kmeans-cluster.py 3 ./practice/chapter04/wine.data "1,2,3,4,5,6,7,8,9,10,11,12,13" wine-centroid.csv 04wine_result.txt
