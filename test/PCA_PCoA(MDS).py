@@ -144,3 +144,6 @@ import scipy as sp
 r_pearson, p_pearson = sp.stats.pearsonr(X['sepal length'], X['sepal width'])
 r_spearman, p_spearman = sp.stats.spearmanr(X['sepal length'], X['sepal width'])
 r_kendall, p_kendall = sp.stats.kendalltau(X['sepal length'], X['sepal width'])
+print(r_pearson, p_pearson)
+print(r_spearman, p_spearman)
+print(r_kendall, p_kendall)
