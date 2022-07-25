@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # https://stackoverflow.com/questions/65241847/how-to-plot-3d-pca-with-different-colors
+# https://stackoverflow.com/questions/32930086/matplotlib-3d-graph-giving-different-plot-when-used-inside-a-function
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
