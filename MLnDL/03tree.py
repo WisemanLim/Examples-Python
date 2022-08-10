@@ -17,7 +17,7 @@ def  main() :
     petal_features = features[:, 2:]
 
     # 의사결정 모델 클래스 생성 (3)
-    cIris = DecisionTreeClassifier (criterion = 'entropy', max_depth = 3)
+    cIris = DecisionTreeClassifier (criterion='entropy', max_depth=3)
     #모델을 훈련 (4)
     cIris.fit(petal_features, targets)
 
