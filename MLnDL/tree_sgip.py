@@ -19,7 +19,7 @@ def  main() :
     # print(csv.head())
     # print(csv.columns)
     # print(csv.shape)
-    class_names = ['건성', '중성', '복합', '지성']
+    class_names = ['Dry', 'Neutral', 'Combination', 'Oily'] # 건성/중성/복합/지성
     features = csv[feature_names].to_numpy()
     # print(features)
     ''' targets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
