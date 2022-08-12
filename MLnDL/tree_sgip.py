@@ -54,7 +54,7 @@ def  main() :
     criterion = 'entropy'
 
     # 의사결정 모델 클래스 생성 (3)
-    dtSGIP = DecisionTreeClassifier(criterion=criterion, max_depth=3)
+    dtSGIP = DecisionTreeClassifier(criterion=criterion, max_depth=10)
     #모델을 훈련 (4)
     dtSGIP.fit(target_features, targets)
 
