@@ -18,7 +18,7 @@ def _shuffle(last_number=10):
         while a in val:
             a = randint(1, last_number)
         val.append(a)
-    print(val)
+    # print(val)
     return val
 
 # power : 초당 전원 on 비율, direction : 방향, duration : 유지시간(1/10sec)
@@ -29,7 +29,7 @@ def control(power=100, direction=1, duration=10):
     # print(a, b)
     cycle = (power // duration)
     # if (cycle == 10): cycle = 1
-    print(power, cycle)
+    # print(power, cycle)
     # 해당 pin을 설정
     if (direction == 1):
         peltier_con = GPIO.LOW
@@ -45,7 +45,7 @@ def control(power=100, direction=1, duration=10):
             peltier_onoff = GPIO.HIGH
             peltier_onoff_str = "GPIO.HIGH"
             # GPIO.setup(5, peltier_onoff)
-            # GPIO.setup(6, peltier_con)
+            # GPIO.setup(6, peltier_con)ß
             time.sleep(0.1)
         else:
             peltier_onoff = GPIO.LOW
@@ -53,7 +53,7 @@ def control(power=100, direction=1, duration=10):
             # GPIO.setup(5, peltier_onoff)
             # GPIO.setup(6, peltier_con)
             time.sleep(0.1)
-        print(i, seq, peltier_onoff_str, peltier_con_str)
+        print(power, direction, peltier_onoff_str, peltier_con_str)
 
 def scenario():
     val = []
@@ -61,7 +61,7 @@ def scenario():
         reader = csv.DictReader(csvfile)
         for row in reader:
             val.append(row['Power'] + ',' + row['Direction'])
-    print(val)
+    # print(val)
     return val
 
 def finish():
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     for i in range(0, len(scval)):
         # if ( i >= 100): break
         power, direction = scval[i].split(',')
-        print(power, direction)
+        # print(power, direction)
         control(power=int(power), direction=int(direction))
     finish()
 """    required = input("Enter 1.playlist to download playlist; \n"
