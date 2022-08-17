@@ -38,7 +38,7 @@ def control(power=100, direction=1, duration=10):
         peltier_con = GPIO.HIGH
         peltier_con_str = "GPIO.HIGH"
 
-    _range = _shuffle(10)
+    _range = _shuffle(duration)
     for i in range(0, len(_range)):
         seq = _range[i]
         if ( seq <= cycle):
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     scval = scenario()
     # while (True):
     for i in range(0, len(scval)):
-        # if ( i >= 100): break
+        if ( i >= 100): break
         power, direction = scval[i].split(',')
         # print(power, direction)
         control(power=int(power), direction=int(direction))
