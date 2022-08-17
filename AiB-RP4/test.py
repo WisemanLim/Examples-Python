@@ -64,6 +64,9 @@ def scenario():
     print(val)
     return val
 
+def finish():
+    GPIO.cleanup()
+
 def main():
     import FakeRPi.Utilities
     FakeRPi.Utilities.mode = FakeRPi.Utilities.PIN_TYPE_BOARD
@@ -101,11 +104,11 @@ if __name__ == "__main__":
     scval = scenario()
     # while (True):
     for i in range(0, len(scval)):
-        if ( i >= 100): break
+        # if ( i >= 100): break
         power, direction = scval[i].split(',')
         print(power, direction)
         control(power=int(power), direction=int(direction))
-
+    finish()
 """    required = input("Enter 1.playlist to download playlist; \n"
                      "2.video to download a video \n"
                      "3.channel to download all videos from a channel \n"
