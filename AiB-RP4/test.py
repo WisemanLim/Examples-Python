@@ -104,7 +104,7 @@ if __name__ == "__main__":
     scval = scenario()
     # while (True):
     for i in range(0, len(scval)):
-        if ( i >= 100): break
+        # if ( i >= 100): break
         power, direction = scval[i].split(',')
         # print(power, direction)
         control(power=int(power), direction=int(direction))
