@@ -51,10 +51,11 @@ def  main() :
     # target_features = features[:, target_feature_names]
     # target_features = features[:, 0:6]
     target_features = csv.loc[:, target_feature_names]
-    criterion = 'entropy'
+    # criterion(분류기준) : gini(Gini impurity), entropy/log_loss(Shannon information gain)
+    criterion = 'log_loss' # gini(default), entropy, log_loss
 
     # 의사결정 모델 클래스 생성 (3)
-    dtSGIP = DecisionTreeClassifier(criterion=criterion, max_depth=10)
+    dtSGIP = DecisionTreeClassifier(criterion=criterion, max_depth=3)
     #모델을 훈련 (4)
     dtSGIP.fit(target_features, targets)
 
