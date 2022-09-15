@@ -8,50 +8,25 @@ import numpy as np
 from sklearn import svm, metrics, model_selection
 
 def  main() :
-    # iris 데이터 로드 (1)
-    # dataset = datasets.load_iris()
-    # features = dataset.data
-    # targets = dataset.target
-    # df = pd.DataFrame(data=dataset['data'], columns=dataset['feature_names'])
-    # df.to_csv('03iris.csv', sep=',', index=False)
     csv = pd.read_csv('./sgip/form_vn2020f_v22.2.csv')
-    feature_names = csv.columns.tolist() # ["sepal length (cm)", "sepal width (cm)", "petal length (cm)", "petal width (cm)"]
-    # print(feature_names)
-    # print(csv.head())
-    # print(csv.columns)
-    # print(csv.shape)
-    class_names = ['Dry', 'Neutral', 'Combination', 'Oily'] # 건성/중성/복합/지성
+    feature_names = csv.columns.tolist()
+    '''
+    기초화장품선호브랜드        aq3(
+    선호하는향               aq41~48
+    화장품성분               aq51~59
+    클렌저제형종류            cq1
+    브랜드(7종)             cq2lp1_cq2~cq2lp7_cq2
+    선호클렌저제형            cq4
+    보습제제형               cq6
+    브랜드(5종)             cq7lp1_cq7~cq7lp5_cq7
+    기초화장품제형            cq15
+    '''
+    class_names = ['1', '2', '3', '4', '5', '6', '7', '99'] # cq4
     features = csv[feature_names].to_numpy()
-    # print(features)
-    ''' targets = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-       0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-       2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-       2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2] # iris targets '''
-    # targets = np.where(csv['AdoptionSpeed']==4, 0, 1)
-    csv['bq1'] = csv['bq1'] - 1
-    targets = (csv['bq1'])
+    targets = ('cq4')
 
-    # label = targets # csv["Name"]
-    # clf = svm.SVC()
-    # scores = model_selection.cross_val_score(clf, features, targets, cv=5)
-    # print("각각의 정답률 =", scores)
-    # print("평균 정답률 =", scores.mean())
-
-    # 꽃잎의 길이와 넓이 정보만 특징으로 사용 (2)
-    # target_features = features[:, 2:]
-    ''' target_feature_names = ['sq1', 'sq2', 'sq3', 'sq4open', 'sq4', 'sq5', 'sq6', 'sq7', 'aq11', 'aq12', 'aq13', 'aq14', 'aq15', 'aq16', 'aq17', 'aq18', 'aq19'
-        , 'aq3', 'aq41', 'aq42', 'aq43', 'aq44', 'aq45', 'aq46', 'aq47', 'aq48', 'aq51', 'aq52', 'aq53', 'aq54', 'aq55', 'aq56', 'aq57', 'aq58', 'aq59'
-        , 'aq61', 'aq62', 'aq63', 'aq64', 'aq65', 'aq66', 'aq67', 'aq68', 'aq69', 'aq610', 'aq611', 'aq612', 'aq613', 'aq614', 'aq615', 'aq616', 'aq617'] '''
-    target_feature_names = ['sq1', 'sq2', 'sq3', 'sq4open', 'sq4', 'sq5', 'sq7', 'aq11', 'aq12', 'aq13', 'aq14', 'aq15', 'aq16', 'aq17', 'aq18', 'aq19'
-        , 'aq41', 'aq42', 'aq43', 'aq44', 'aq45', 'aq46', 'aq47', 'aq48', 'aq51', 'aq52', 'aq53', 'aq54', 'aq55', 'aq56', 'aq57', 'aq58', 'aq59'
-        , 'aq61', 'aq62', 'aq63', 'aq64', 'aq65', 'aq66', 'aq67', 'aq68', 'aq69', 'aq610', 'aq611', 'aq612', 'aq613', 'aq614', 'aq615', 'aq616', 'aq617']
-    # target_features = features[:, target_feature_names]
-    # target_features = features[:, 0:6]
+    target_feature_names = ['sq2', 'sq4open', 'sq4', 'bq1', 'bq1x1_1', 'bq1x1_2', 'bq1x1_3', 'bq1x1_4', 'bq1x2', 'bq1x3', 'dq2']
     target_features = csv.loc[:, target_feature_names]
-    # criterion(분류기준) : gini(Gini impurity), entropy/log_loss(Shannon information gain)
     criterion = 'log_loss' # gini(default), entropy, log_loss
 
     # 의사결정 모델 클래스 생성 (3)
