@@ -2,11 +2,11 @@
 Refernce sites : (1)video capturing https://deftkang.tistory.com/182
 (2)Image comparing https://www.pyimagesearch.com/2014/09/15/python-compare-two-images/?_ga=2.70968851.2043555178.1635338626-1428126889.1634818476
 (3)Export pdf file https://anythink.tistory.com/entry/Python-이미지-파일을-PDF-파일로-변환하기, https://datatofish.com/images-to-pdf-python/
+(4)Compress pdf file cf)https://stackoverflow.com/questions/12632291/cant-find-initialization-file-gs-init-ps
 """
 #-*- coding:utf-8 -*-
 #!/usr/bin/python
 import sys
-
 import cv2
 import os
 import shutil
@@ -15,6 +15,8 @@ from skimage.metrics import mean_squared_error as mse
 from img2pdf import convert
 # from PIL import Image
 import utils.pdf_compressor as pdf_compressor
+# argparse
+import argparse as argp
 
 def set_file(input='in', filename=None, eachByFrame=5):
     ln = len(filename.split('/'))
@@ -35,8 +37,10 @@ def set_file(input='in', filename=None, eachByFrame=5):
     except Exception as error:
         print(error)
 
-    if (ln > 0):
+    ln = len(filename.split('/'))
+    if (ln > 1):
         filename = filename.split('/')[ln - 1]
+
     return video, loop, filename
 
 def capture(video=None, loop=0, output='out', init=False):
@@ -78,11 +82,11 @@ def capture(video=None, loop=0, output='out', init=False):
                     result = image_compare(target_input=output, before_image=before_image, current_image=current_image)
 
                 if (result):
-                    # print('[Skiped] {currentframe} :: {before_image} {current_image}'
+                    # print('[Skiped] {currentframe} :: before : {before_image} -> current : {current_image}'
                     #       .format(currentframe=currentframe, before_image=before_image, current_image=current_image))
                     pass
                 else:
-                    print('[Captured] {currentframe} :: {before_image} {current_image}'
+                    print('[Captured] {currentframe} :: before : {before_image} -> current : {current_image}'
                           .format(currentframe=currentframe, before_image=before_image, current_image=current_image))
                     before_image = name
                     currentframe += 1
@@ -157,9 +161,13 @@ def export_pdf(images_dir=None, pdf_filename=None):
 
 # PDF Compress
 def compress_pdf(pdf='./pdf', pdf_filename=None, quality=0):
+    ln = len(pdf_filename.split('/'))
+    if (ln == 1):
+        pdf_filename = '{pdf}/{pdf_filename}'.format(pdf=pdf, pdf_filename=pdf_filename)
+
     print("Compress pdf started...{pdf_filename}".format(pdf_filename=pdf_filename))
-    origin_file = '{pdf}/{pdf_filename}'.format(pdf=pdf, pdf_filename=pdf_filename)
-    c_file = '{pdf}/{pdf_filename}_comp.pdf'.format(pdf=pdf, pdf_filename=pdf_filename.split('.')[0])
+    origin_file = '{pdf_filename}'.format(pdf=pdf, pdf_filename=pdf_filename)
+    c_file = '{pdf_filename}_comp.pdf'.format(pdf=pdf, pdf_filename=pdf_filename.split('.')[0])
     # pdf_compressor.compress(origin_file, c_file, 3)
     pdf_compressor.compress(origin_file, c_file, quality)
     # rename
@@ -167,25 +175,40 @@ def compress_pdf(pdf='./pdf', pdf_filename=None, quality=0):
     os.rename(c_file, origin_file)
     print("Compress pdf completed...")
 
-def main():
-    filename = '생활코딩! React 리액트 프로그래밍.mov'
+def main(param=None):
+    # filename = '세상을 바꿀 거대한 변화 7가지.mov' 통계가 빨라지는 수학력- 빅데이터 분석에 필요한 기본 수학.mov
+    filename = param.filename
+    processing = param.env
     output = 'out' # 'ToeicLC'
 
-    # compress_pdf only
-    # pdf_filename = '{pdf_filename}.pdf'.format(pdf_filename=filename.split('.')[0])
-    # compress_pdf(pdf_filename=pdf_filename, quality=4)
-    # exit()
+    # compress pdf only
+    if (processing == 'cmp' ):
+        pdf_filename = '{pdf_filename}.pdf'.format(pdf_filename=filename.split('.')[0])
+        # pdf_filename = '/Users/wisemanlim/Downloads/Study/완벽한IT인프라구축을위한Doker(최종).pdf'
+        compress_pdf(pdf_filename=pdf_filename, quality=4)
 
-    # pdf_only
-    pdf_filename = '{pdf_filename}.pdf'.format(pdf_filename=filename.split('.')[0])
-    export_pdf(images_dir=output, pdf_filename=pdf_filename)
-    exit()
+    if ((processing == 'full') or (processing == 'cnv')):
+        video, loop, filename = set_file(filename=filename, eachByFrame=10)
+        capture(video=video, loop=loop, output=output, init=True)
 
-    # video, loop, filename = set_file(filename=filename, eachByFrame=10)
-    # capture(video=video, loop=loop, output=output, init=True)
-    # pdf_filename = '{pdf_filename}.pdf'.format(pdf_filename=filename.split('.')[0])
-    # export_pdf(images_dir=output, pdf_filename=pdf_filename)
+    if ((processing == 'full') or (processing == 'pdf')):
+        pdf_filename = '{pdf_filename}.pdf'.format(pdf_filename=filename.split('.')[0])
+        # export & compress pdf
+        export_pdf(images_dir=output, pdf_filename=pdf_filename)
+
+def env_args():
+    # command-line options, argumetns : https://brownbears.tistory.com/413, https://docs.python.org/3/library/argparse.html
+    parser = argp.ArgumentParser(description='Video to pdf file')
+
+    parser.add_argument('--filename', required=True, help='Inpur video filename(default path=./in, ie)Education.mov')
+    parser.add_argument('--env', required=False, default='full'
+                        , help='[full,cnv,pdf,cmp] full:convert+pdf+compress, cnv:only image convert, pdf:pdf+compress, cmp:only compress')
+
+    args = parser.parse_args()
+    print("In : {filename}, Processing : {env}".format(filename=args.filename, env=args.env))
+    return args
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    main()
+    args = env_args()
+    main(param=args)
