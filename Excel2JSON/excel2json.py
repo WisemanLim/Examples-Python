@@ -67,8 +67,9 @@ def main():
         records = records_for_json(sheet)
 
         mode = 'w' if args.force else 'x'
-        with open(dst, mode) as f:
-            json.dump(records, f, ignore_nan=True, cls=PandasJsonEncoder, indent=4)
+        # 한글 깨짐 : https://datamod.tistory.com/104
+        with open(dst, mode, encoding='UTF-8-sig') as f:
+            json.dump(records, f, ignore_nan=True, cls=PandasJsonEncoder, indent=4, ensure_ascii=False)
 
         if not args.quiet:
             arrow = '\u2192'
