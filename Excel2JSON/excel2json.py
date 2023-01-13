@@ -76,4 +76,5 @@ def main():
 
 
 if __name__ == '__main__':
+    # python3 excel2json.py. / xls / NutrientsByFood.xlsx - -sheet 20221208
     main()
