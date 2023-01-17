@@ -3,6 +3,7 @@ Refernce sites : (1)video capturing https://deftkang.tistory.com/182
 (2)Image comparing https://www.pyimagesearch.com/2014/09/15/python-compare-two-images/?_ga=2.70968851.2043555178.1635338626-1428126889.1634818476
 (3)Export pdf file https://anythink.tistory.com/entry/Python-이미지-파일을-PDF-파일로-변환하기, https://datatofish.com/images-to-pdf-python/
 (4)Compress pdf file cf)https://stackoverflow.com/questions/12632291/cant-find-initialization-file-gs-init-ps
+(add)Install ghostscript on Mac OSX : https://macappstore.org/ghostscript/
 """
 #-*- coding:utf-8 -*-
 #!/usr/bin/python
