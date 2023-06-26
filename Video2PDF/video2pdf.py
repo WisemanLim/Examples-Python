@@ -18,6 +18,8 @@ from img2pdf import convert
 import utils.pdf_compressor as pdf_compressor
 # argparse
 import argparse as argp
+# pdf split and merge
+import utils.pdfutils as pdf_utils
 
 def set_file(input='in', filename=None, eachByFrame=5):
     ln = len(filename.split('/'))
@@ -180,11 +182,14 @@ def main(param=None):
     # filename = '세상을 바꿀 거대한 변화 7가지.mov' 통계가 빨라지는 수학력- 빅데이터 분석에 필요한 기본 수학.mov
     filename = param.filename
     processing = param.env
-    output = 'out' # 'ToeicLC'
+    pdf_split = param.split
+    pdf_merge = param.merge
 
+    output = 'out'  # 'ToeicLC'
+
+    pdf_filename = '{pdf_filename}.pdf'.format(pdf_filename=filename.split('.')[0])
     # compress pdf only
-    if (processing == 'cmp' ):
-        pdf_filename = '{pdf_filename}.pdf'.format(pdf_filename=filename.split('.')[0])
+    if (processing == 'cmp'):
         # pdf_filename = '/Users/wisemanlim/Downloads/Study/완벽한IT인프라구축을위한Doker(최종).pdf'
         compress_pdf(pdf_filename=pdf_filename, quality=4)
 
@@ -193,9 +198,19 @@ def main(param=None):
         capture(video=video, loop=loop, output=output, init=True)
 
     if ((processing == 'full') or (processing == 'pdf')):
-        pdf_filename = '{pdf_filename}.pdf'.format(pdf_filename=filename.split('.')[0])
         # export & compress pdf
         export_pdf(images_dir=output, pdf_filename=pdf_filename)
+
+    # split or merge
+    if (pdf_split == 'full'):
+        pdf_utils.pdf_split(pdf_filename=pdf_filename)
+    elif (pdf_split == 'skip'):
+        pass
+    else:
+        r_pages = pdf_split.split(",")
+        pdf_utils.pdf_split(pdf_filename=pdf_filename, pages=r_pages)
+
+    if (pdf_merge == "full"): pdf_utils.pdf_merge()
 
 def env_args():
     # command-line options, argumetns : https://brownbears.tistory.com/413, https://docs.python.org/3/library/argparse.html
@@ -203,7 +218,12 @@ def env_args():
 
     parser.add_argument('--filename', required=True, help='Inpur video filename(default path=./in, ie)Education.mov')
     parser.add_argument('--env', required=False, default='full'
-                        , help='[full,cnv,pdf,cmp] full:convert+pdf+compress, cnv:only image convert, pdf:pdf+compress, cmp:only compress')
+                        , help='[full,cnv,pdf,cmp,skip] full:convert+pdf+compress, '
+                               'cnv:only image convert, pdf:pdf+compress, cmp:only compress, '
+                               'skip:for split and merge in pdf files')
+    parser.add_argument('--split', required=False, default='full', help='[full,skip,pages] skip, pages:1-10,30,40-45')
+    parser.add_argument('--merge', required=False, default='full'
+                        , help='[full,lists] lists of files for merge, i.e. full -> "./pdf/split/", lists:*.pdf')
 
     args = parser.parse_args()
     print("In : {filename}, Processing : {env}".format(filename=args.filename, env=args.env))

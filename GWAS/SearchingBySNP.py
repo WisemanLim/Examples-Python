@@ -2,7 +2,7 @@ import pysam
 import vcfpy as vcf
 
 # FASTQ 파일 경로와 출력 BAM 파일 경로를 지정합니다.
-fastq_file = "example.fastq"
+fastq_file = "12001_R1.fastq" # "example.fastq"
 
 fasta_file = pysam.FastaFile(fastq_file)
 vcf_file = pysam.VCFWriter("example.vcf", fasta_file.references, fasta_file.pileup())
