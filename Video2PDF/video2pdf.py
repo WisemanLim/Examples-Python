@@ -202,15 +202,19 @@ def main(param=None):
         export_pdf(images_dir=output, pdf_filename=pdf_filename)
 
     # split or merge
-    if (pdf_split == 'full'):
-        pdf_utils.pdf_split(pdf_filename=pdf_filename)
-    elif (pdf_split == 'skip'):
+    if (pdf_split == 'skip'):
         pass
     else:
-        r_pages = pdf_split.split(",")
-        pdf_utils.pdf_split(pdf_filename=pdf_filename, pages=r_pages)
+        if (pdf_split == 'full'):
+            pdf_utils.pdf_split(pdf_filename=pdf_filename)
+        else:
+            r_pages = pdf_split.split(",")
+            pdf_utils.pdf_split(pdf_filename=pdf_filename, pages=r_pages)
 
-    if (pdf_merge == "full"): pdf_utils.pdf_merge()
+    if (pdf_merge == 'skip'):
+        pass
+    else:
+        if (pdf_merge == "full"): pdf_utils.pdf_merge()
 
 def env_args():
     # command-line options, argumetns : https://brownbears.tistory.com/413, https://docs.python.org/3/library/argparse.html
@@ -221,8 +225,8 @@ def env_args():
                         , help='[full,cnv,pdf,cmp,skip] full:convert+pdf+compress, '
                                'cnv:only image convert, pdf:pdf+compress, cmp:only compress, '
                                'skip:for split and merge in pdf files')
-    parser.add_argument('--split', required=False, default='full', help='[full,skip,pages] skip, pages:1-10,30,40-45')
-    parser.add_argument('--merge', required=False, default='full'
+    parser.add_argument('--split', required=False, default='skip', help='[full,skip,pages] skip, pages:"1-10,30,40-45"')
+    parser.add_argument('--merge', required=False, default='skip'
                         , help='[full,lists] lists of files for merge, i.e. full -> "./pdf/split/", lists:*.pdf')
 
     args = parser.parse_args()
