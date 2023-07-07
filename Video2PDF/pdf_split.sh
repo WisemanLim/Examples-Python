@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ "$#" -lt 3 ]
+if [ "$#" -lt 2 ]
 then
   echo "Usage : pdf_split.sh filename pages:'10-12,20,30-35'"
   exit 1

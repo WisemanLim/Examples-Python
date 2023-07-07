@@ -1,5 +1,6 @@
 #!/bin/bash
-if [ "$#" -lt 2 ]
+echo "$#"
+if [ "$#" -lt 1 ]
 then
   echo "Usage : pdf_convert.sh filename"
   exit 1
