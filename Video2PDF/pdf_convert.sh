@@ -1,5 +1,4 @@
 #!/bin/bash
-echo "$#"
 if [ "$#" -lt 1 ]
 then
   echo "Usage : pdf_convert.sh filename"
