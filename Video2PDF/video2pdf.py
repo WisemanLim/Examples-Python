@@ -191,7 +191,7 @@ def main(param=None):
     # compress pdf only
     if (processing == 'cmp'):
         # pdf_filename = '/Users/wisemanlim/Downloads/Study/완벽한IT인프라구축을위한Doker(최종).pdf'
-        compress_pdf(pdf_filename=pdf_filename, quality=4)
+        compress_pdf(pdf_filename=pdf_filename, quality=3) # quality 4->3(ebook)으로 변경
 
     if ((processing == 'full') or (processing == 'cnv')):
         video, loop, filename = set_file(filename=filename, eachByFrame=10)
