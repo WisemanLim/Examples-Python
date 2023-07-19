@@ -89,8 +89,9 @@ def capture(video=None, loop=0, output='out', init=False):
                     #       .format(currentframe=currentframe, before_image=before_image, current_image=current_image))
                     pass
                 else:
-                    # print('[Captured] {currentframe} :: before : {before_image} -> current : {current_image}'
-                    #       .format(currentframe=currentframe, before_image=before_image, current_image=current_image))
+                    if (currentframe % 100 == 0): # 100page마다 디버깅
+                        print('[Captured] {currentframe} :: before : {before_image} -> current : {current_image}'
+                              .format(currentframe=currentframe, before_image=before_image, current_image=current_image))
                     before_image = name
                     currentframe += 1
         else:
