@@ -183,6 +183,7 @@ def main(param=None):
     filename = param.filename
     processing = param.env
     pdf_split = param.split
+    pdf_delete = param.delete
     pdf_merge = param.merge
 
     output = 'out'  # 'ToeicLC'
@@ -200,8 +201,8 @@ def main(param=None):
     if ((processing == 'full') or (processing == 'pdf')):
         # export & compress pdf
         export_pdf(images_dir=output, pdf_filename=pdf_filename)
-
-    # split or merge
+        
+    # split, delete or merge
     if (pdf_split == 'skip'):
         pass
     else:
@@ -210,7 +211,13 @@ def main(param=None):
         else:
             r_pages = pdf_split.split(",")
             pdf_utils.pdf_split(pdf_filename=pdf_filename, pages=r_pages)
-
+            
+    if (pdf_delete == 'skip'):
+        pass
+    else:
+        r_pages = pdf_split.split(",")
+        pdf_utils.pdf_delete(pdf_filename=pdf_filename, pages=r_pages)
+        
     if (pdf_merge == 'skip'):
         pass
     else:
@@ -226,6 +233,7 @@ def env_args():
                                'cnv:only image convert, pdf:pdf+compress, cmp:only compress, '
                                'skip:for split and merge in pdf files')
     parser.add_argument('--split', required=False, default='skip', help='[full,skip,pages] skip, pages:"1-10,30,40-45"')
+    parser.add_argument('--delete', required=False, default='skip', help='[skip,pages] skip, pages:"1-10,30,40-45"')
     parser.add_argument('--merge', required=False, default='skip'
                         , help='[full,lists] lists of files for merge, i.e. full -> "./pdf/split/", lists:*.pdf')
 

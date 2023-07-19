@@ -29,7 +29,6 @@ def splitter(pdf_filename=None, pages=None):
     except Exception as error:
         print(error)
 
-
     pdf = PdfFileReader(pdf_filename)
     if (pages is None):
         pages = []
@@ -66,6 +65,23 @@ def pdf_split(pdf_filename=None, pages=None):
         splitter(pdf_filename=input_filename, pages=pages)
     else:
         splitter(pdf_filename=input_filename)
+
+def pdf_delete(pdf_filename=None, pages=None):
+    # filename = "꿈 같은 거 없는데요.pdf"
+    input_filename = '{default_path}{filename}'.format(default_path=default_path, filename=pdf_filename)
+
+    pdf = PdfFileReader(input_filename, 'rb')
+    after_pages = None
+    if (pages is not None):
+        pages = set_pages(pages)
+
+        for i in range(len(pdf.pages)):
+            if i not in pages:
+                after_pages = pdf.pages[i]
+
+        splitter(pdf_filename=input_filename, pages=after_pages)
+    else:
+        pass
 
 def pdf_merge():
     paths = glob.glob('{default_path}{default_split_path}*.pdf'
