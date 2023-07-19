@@ -215,7 +215,7 @@ def main(param=None):
     if (pdf_delete == 'skip'):
         pass
     else:
-        r_pages = pdf_split.split(",")
+        r_pages = pdf_delete.split(",")
         pdf_utils.pdf_delete(pdf_filename=pdf_filename, pages=r_pages)
         
     if (pdf_merge == 'skip'):
