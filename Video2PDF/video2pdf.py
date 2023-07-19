@@ -99,7 +99,7 @@ def capture(video=None, loop=0, output='out', init=False):
 
     video.release()
     cv2.destroyAllWindows()
-    print("Capturing completed... [Pages : {total_frame}]".format(total_frame=current_image-1))
+    print("Capturing completed... [Pages : {total_frame}]".format(total_frame=currentframe-1))
 
 def image_compare(target_input='out', before_image=None, current_image=None):
     rtn = False
