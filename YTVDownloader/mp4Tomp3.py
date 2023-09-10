@@ -1,6 +1,10 @@
 #-*- coding:utf-8 -*-
 #!/usr/bin/python
 # Ref : https://codingdiksha.com/convert-mp4-video-to-mp3-audio-python-moviepy-script/
+# RuntimeError: No ffmpeg exe could be found. Install ffmpeg on your system, or set the IMAGEIO_FFMPEG_EXE environment variable. : https://github.com/Zulko/moviepy/issues/1158, https://community.wolfram.com/groups/-/m/t/2189605
+import os
+os.environ["IMAGEIO_FFMPEG_EXE"] = "/opt/homebrew/bin/ffmpeg"
+
 from moviepy.editor import *
 
 def checkDirectory(source, target="mp3"):
