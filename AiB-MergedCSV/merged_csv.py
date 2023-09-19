@@ -131,8 +131,8 @@ if __name__ == "__main__":
 
         # Transpose된 DataFrame을 CSV 파일로 저장
         df_transposed.to_csv(final_output_file, header=False)
-        rows = len(df_transposed.axes[0])
-        cols = len(df_transposed.axes[1])
-        print(output_file, rows, cols)
+        rows = len(df_transposed.axes[1]) # transpose하여 로그 찍음
+        cols = len(df_transposed.axes[0])
+        print(final_output_file, rows, cols)
 
         print('Transposed output saved to', final_output_file)
