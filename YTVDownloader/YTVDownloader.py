@@ -1,15 +1,18 @@
 # -*- coding:utf-8 -*-
 # !/usr/bin/python
 # Ref : https://www.analyticsvidhya.com/blog/2022/02/youtube-video-downloader-using-python/
-# SSL: CERTIFICATE_VERIFY_FAILED :: https://exerror.com/urllib-error-urlerror-urlopen-error-ssl-certificate_verify_failed-certificate-verify-failed-unable-to-get-local-issuer-certificate/
+# SSL: CERTIFICATE_VERIFY_FAILED :: https://cosmosproject.tistory.com/651, https://exerror.com/urllib-error-urlerror-urlopen-error-ssl-certificate_verify_failed-certificate-verify-failed-unable-to-get-local-issuer-certificate/
 # get_throttling_function_name : python -m pip install git+https://github.com/kinshuk-h/pytube
 # https://codereview.stackexchange.com/questions/269794/youtube-downloader-with-pytube
+# 23-09-26 Bug : https://github.com/pytube/pytube/issues/1589, https://github.com/pytube/pytube
 
 from pytube import YouTube
 from pytube import Playlist
 from pytube import Channel
 import os, shutil
 import mp4Tomp3 as convertor
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 def checkDirectory(target):
     if (target == ""): return
