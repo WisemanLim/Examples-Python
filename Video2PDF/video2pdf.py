@@ -1,6 +1,7 @@
 """
 Refernce sites : (1)video capturing https://deftkang.tistory.com/182
 (2)Image comparing https://www.pyimagesearch.com/2014/09/15/python-compare-two-images/?_ga=2.70968851.2043555178.1635338626-1428126889.1634818476
+  (2-1)Remove matched pattern image : https://mandloh.tistory.com/97, https://bkshin.tistory.com/entry/OpenCV-25-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%A7%A4%EC%B9%AD-%ED%8F%89%EA%B7%A0-%ED%95%B4%EC%8B%9C-%EB%A7%A4%EC%B9%AD-%ED%85%9C%ED%94%8C%EB%A6%BF-%EB%A7%A4%EC%B9%AD
 (3)Export pdf file https://anythink.tistory.com/entry/Python-이미지-파일을-PDF-파일로-변환하기, https://datatofish.com/images-to-pdf-python/
 (4)Compress pdf file cf)https://stackoverflow.com/questions/12632291/cant-find-initialization-file-gs-init-ps
 (add)Install ghostscript on Mac OSX : https://macappstore.org/ghostscript/
@@ -20,6 +21,7 @@ import utils.pdf_compressor as pdf_compressor
 import argparse as argp
 # pdf split and merge
 import utils.pdfutils as pdf_utils
+import numpy as np
 
 def set_file(input='in', filename=None, eachByFrame=5):
     ln = len(filename.split('/'))
@@ -104,6 +106,7 @@ def capture(video=None, loop=0, output='out', init=False):
 
 def image_compare(target_input='out', before_image=None, current_image=None):
     rtn = False
+    skip_pattern = False
     input = './{target_input}/'.format(target_input=target_input)
 
     before_image = cv2.imread('{input}{before_image}'.format(input=input, before_image=before_image))
@@ -112,6 +115,17 @@ def image_compare(target_input='out', before_image=None, current_image=None):
     before_image = cv2.cvtColor(before_image, cv2.COLOR_BGR2GRAY)
     current_image = cv2.cvtColor(current_image, cv2.COLOR_BGR2GRAY)
 
+    # # 페이지 넘김 이미지는 생략(패턴 비교)
+    # template = cv2.imread('./in/skip_pattern.png', cv2.IMREAD_GRAYSCALE) # 찾을 이미지. 불러올때부터 흑백
+    # w, h = template.shape[::-1]  # 타겟의 크기값을 변수에 할당
+    # res = cv2.matchTemplate(before_image, template, cv2.TM_CCOEFF_NORMED)
+    # min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+    # print(min_val, max_val, min_loc, max_loc)
+    # skip_pattern = False
+    #
+    # if (skip_pattern):
+    #     pass
+    # else:
     m = mse(before_image, current_image)
     s = ssim(before_image, current_image)
     c_m = str('%.2f' % m)
