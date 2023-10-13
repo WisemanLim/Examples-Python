@@ -6,17 +6,8 @@ import pandas as pd
 def set_files(level='Class'):
     filename = '{level}_Level_Aggregate_Counts.csv'.format(level=level)
     file_paths = [
-        {'path': './raw/1_211224/{filename}'.format(filename=filename), 'delimiter': ','},
-        {'path': './raw/2_220129/{filename}'.format(filename=filename), 'delimiter': ','},
-        {'path': './raw/3_220504/{filename}'.format(filename=filename), 'delimiter': ','},
-        {'path': './raw/4_220630/{filename}'.format(filename=filename), 'delimiter': ','},
-        {'path': './raw/5_220803/{filename}'.format(filename=filename), 'delimiter': ','},
-        {'path': './raw/6_221014/{filename}'.format(filename=filename), 'delimiter': ','},
-        {'path': './raw/7_221208/{filename}'.format(filename=filename), 'delimiter': ','},
-        {'path': './raw/8_230118/{filename}'.format(filename=filename), 'delimiter': ','},
-        {'path': './raw/9_230221/{filename}'.format(filename=filename), 'delimiter': ','},
-        {'path': './raw/10_230803/{filename}'.format(filename=filename), 'delimiter': ','},
-        {'path': './raw/11_230907/{filename}'.format(filename=filename), 'delimiter': ','}
+        {'path': './raw/1_211015/{filename}'.format(filename=filename), 'delimiter': ','},
+        {'path': './raw/2_merge230919/{filename}'.format(filename=filename), 'delimiter': ','}
     ]
     return file_paths
 
