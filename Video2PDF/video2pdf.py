@@ -242,7 +242,7 @@ def env_args():
     # command-line options, argumetns : https://brownbears.tistory.com/413, https://docs.python.org/3/library/argparse.html
     parser = argp.ArgumentParser(description='Video to pdf file')
 
-    parser.add_argument('--filename', required=True, help='Inpur video filename(default path=./in, ie)Education.mov')
+    parser.add_argument('--filename', required=True, help='Input video filename(default path=./in, ie)Education.mov')
     parser.add_argument('--env', required=False, default='full'
                         , help='[full,cnv,pdf,cmp,skip] full:convert+pdf+compress, '
                                'cnv:only image convert, pdf:pdf+compress, cmp:only compress, '
