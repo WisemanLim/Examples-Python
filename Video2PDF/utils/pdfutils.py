@@ -98,60 +98,54 @@ def pdf_merge():
     merger(input_paths=paths, merge_filename='{default_path}pdf_merge.pdf'.format(default_path=default_path))
 
 def draw_string(ca=None, watermark_string=None):
-    watermark_string = "{owner}{timestamp}".format(owner="Wise", timestamp=datetime.fromtimestamp(time.time()))
     width = ca._pagesize[0]
     height = ca._pagesize[1]
     ca.setFillColor(colors.grey, alpha=0.6)
-    ca.setFont('Helvetica', 30)
+    ca.setFont('Helvetica', 50)
     ca.rotate(45)
-    print(width, height)
+    # print(int(width) - int(width/8), int(height/13))
     # ca.drawRightString(width - 25, height - 25, watermark_string)
-    ca.drawCentredString((width - (width/3)), height - (height/3), watermark_string)
+    if (watermark_string == None):
+        ca.drawCentredString(int(width) - int(width/8), int(height/13)+50, "{owner}".format(owner="Wise"))
+        ca.drawCentredString(int(width) - int(width/8), int(height/13),
+                             "{timestamp}".format(timestamp=datetime.fromtimestamp(time.time())))
+    else:
+        ca.drawCentredString(int(width) - int(width/8), int(height/13), "{watermark_string}".format(watermark_string=watermark_string))
     return ca
 
 def make_watermark(pdf_filename=None):
-    # Init - Create the watermark files
-    ca_portrait = Canvas('tmp-portrait.pdf', pagesize=A4)
-    ca_landscape = Canvas('tmp-landscape.pdf', pagesize=landscape(A4))
-
-    draw_string(ca_portrait).save()
-    draw_string(ca_landscape).save()
-    
-    #### Use the created watermarks to watermark a file
+    # Use the created watermarks to watermark a file
     source_pdf = PdfFileReader(pdf_filename)
-    
-    landscape_file = open('tmp-landscape.pdf', 'rb')
-    watermark_landscape = PdfFileReader(landscape_file)
-    portrait_file = open('tmp-portrait.pdf', 'rb')
-    watermark_portrait = PdfFileReader(portrait_file)
-    output = PdfFileWriter()
-    
     page = source_pdf.getPage(0).mediaBox
-    print(page[2], page[3])
-    
-    for page in source_pdf.pages:
-        # Check rotation
-        if page.mediaBox.width < page.mediaBox.height:
-            page.merge_page(watermark_portrait.pages[0])
-        else:
-            page.merge_page(watermark_landscape.pages[0])
-        output.add_page(page)
+    width = page[2]
+    height = page[3]
+
+    # Init - Create the watermark files
+    wm_filename = 'tmp-wartermark.pdf'
+    ca = Canvas(wm_filename, pagesize=(width, height))
+    draw_string(ca).save()
+    ca_filename = open(wm_filename, 'rb')
+    watermark_pdf = PdfFileReader(ca_filename)
+    output = PdfFileWriter()
+
+    for i in range(source_pdf.getNumPages()):
+        pdf_page = source_pdf.getPage(i)
+        pdf_page.mergePage(watermark_pdf.pages[0])
+        output.addPage(pdf_page)
     
     watermark_filename = pdf_filename.split('.pdf')[0] + '-watermarked.pdf'
     with open(watermark_filename, 'wb') as file:
         output.write(file)
         
-    landscape_file.close()
-    portrait_file.close()
-    os.remove('tmp-portrait.pdf')
-    os.remove('tmp-landscape.pdf')
+    ca_filename.close()
+    os.remove(wm_filename)
     
     with open(watermark_filename, "rb") as f: data = f.read()
     f = open(watermark_filename + ".hash", "w")
-    f.write("MD5 : {value}".format(value=hashlib.md5(data).hexdigest()))
-    f.write("SHA-1 : {value}".format(value=hashlib.sha1(data).hexdigest()))
-    f.write("SHA-224 : {value}".format(value=hashlib.sha224(data).hexdigest()))
-    f.write("SHA-256 : {value}".format(value=hashlib.sha256(data).hexdigest()))
+    f.write("MD5 : {value}\n".format(value=hashlib.md5(data).hexdigest()))
+    f.write("SHA-1 : {value}\n".format(value=hashlib.sha1(data).hexdigest()))
+    f.write("SHA-224 : {value}\n".format(value=hashlib.sha224(data).hexdigest()))
+    f.write("SHA-256 : {value}\n".format(value=hashlib.sha256(data).hexdigest()))
     f.close()
 
 if __name__ == '__main__':
