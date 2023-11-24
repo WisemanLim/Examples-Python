@@ -50,14 +50,17 @@ def playlist(url, target, conv=False):
     print('Number of videos in playlist: %s' % len(playlist.video_urls))
     current_file = 1
     for video in playlist.videos:
-        # print(video.title)
-        out_file = video.streams.filter(progressive=True,
-                             file_extension='mp4').order_by(
-            'resolution').desc().first().download() # target)
+        try:
+            # print(video.title)
+            out_file = video.streams.filter(progressive=True,
+                                 file_extension='mp4').order_by(
+                'resolution').desc().first().download() # target)
 
-        new_file = downloadedFile(old_file=out_file, count=current_file, target=target)
-        print('{current_file} {filename}'.format(current_file=str(current_file).zfill(2), filename=video.streams.first().default_filename))
-        current_file += 1
+            new_file = downloadedFile(old_file=out_file, count=current_file, target=target)
+            print('{current_file} {filename}'.format(current_file=str(current_file).zfill(2), filename=video.streams.first().default_filename))
+            current_file += 1
+        except Exception as error:
+            print(error)
     if (conv): convertMp4ToMp3(target=target)
     print("Done!!")
 
