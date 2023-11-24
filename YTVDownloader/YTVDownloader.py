@@ -58,9 +58,9 @@ def playlist(url, target, conv=False):
 
             new_file = downloadedFile(old_file=out_file, count=current_file, target=target)
             print('{current_file} {filename}'.format(current_file=str(current_file).zfill(2), filename=video.streams.first().default_filename))
-            current_file += 1
         except Exception as error:
             print(error)
+        current_file += 1
     if (conv): convertMp4ToMp3(target=target)
     print("Done!!")
 
