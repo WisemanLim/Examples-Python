@@ -164,7 +164,8 @@ def export_pdf(images_dir=None, pdf_filename=None):
     # tmp_image.save(pdf_filename, save_all=True, append_images=pdf_lists)
 
     for file in list_of_files: # os.listdir(input):
-        if (file.endswith('.png')):
+        if ( (file.endswith('.png')) or (file.endswith('.jpg')) or (file.endswith('.jpeg'))
+            or (file.endswith('.gif')) or (file.endswith('.bmp')) or (file.endswith('.svg')) ):
             pdf_lists.append('{input}{file}'.format(input=input, file=file))
     export = convert(pdf_lists, dpi=100, x=None, y=None)
     # export = convert(pdf_lists)
