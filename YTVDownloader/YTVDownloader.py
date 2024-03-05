@@ -4,7 +4,7 @@
 # SSL: CERTIFICATE_VERIFY_FAILED :: https://cosmosproject.tistory.com/651, https://exerror.com/urllib-error-urlerror-urlopen-error-ssl-certificate_verify_failed-certificate-verify-failed-unable-to-get-local-issuer-certificate/
 # get_throttling_function_name : python -m pip install git+https://github.com/kinshuk-h/pytube
 # https://codereview.stackexchange.com/questions/269794/youtube-downloader-with-pytube
-# 23-09-26 Bug : https://github.com/pytube/pytube/issues/1589, https://github.com/pytube/pytube
+# 23-09-26 Bug(streamingData) : https://github.com/pytube/pytube/issues/1589, https://github.com/pytube/pytube, https://stackoverflow.com/questions/76195507/keyerror-streamingdata-in-a-youtube-downloader
 
 from pytube import YouTube
 from pytube import Playlist
